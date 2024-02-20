@@ -1,0 +1,1182 @@
+var userprompt = "i need a web page to sell bus tickets to 5 cities in india. Be as creative while making the webpage, try to use various styles like shadow, colors ,etc";
+var system_message = 'Given a command we need the output as mentioned below:\nCommand: "A web page with a heading a rich text and 2 Buttons in a container."\nAnswer:\n[{\n"heading_1";[],  \n"rich_text_1":[],\n"container_1":["button_1","button_2"],\n"button_1":[],\n"button_2":[]       \n}]\nTo give you context on what is going on, here we trying to write the given command as an array of dictionaries.\nIn the above example since container contains two buttons, we treat them as containers children and add them to the array.\nHeading, rich text and button do not have any children so they have an empty array.\n\nAll possible components that can be used are: "container", "button", "rich text", "text area", "heading", "input","check box","pill".\nNaming format must be followed like containers should be named as "container_{number}" example "container_1" similarly for "buttons","rich_text","text_area","input","heading","check_box","pill".\n\nEvery component has some specific features which are listed below:\n"container" : "type" and "direction".\n    possible values for the features of "container" are:\n        "type" can take 5 values "section","article","header","footer","aside","address","main" default value is "section".\n        "direction" can take 2 value "row" and "column" default value is "column".\n"button" : "size","disabled","variant" and "label"\n    possible values for the features of "button" are:\n        "size" can take 3 values small,medium and large used as  "sm","md" and "lg" and the default value is "md".\n        "disabled" can take 2 value namely true and false and the default value is false.\n        "variant" can take 7 values "primary", "secondary", "tertiary", "positive primary", "positive secondary" , "negative primary" and "negative secondary" and the default value is "secondary".\n        "label" takes a string as value and the default one is "click". \n"input" : "size","type" and "label"\n    possible values for the features of "input" are:\n        "size" can 2 two value small and medium used as "sm" and "md" and the default is "sm". \n        "type" can take 4 values namely "email","text","number" and "ip" and the default is "text". \n        "label" can take any string. Feel free to set the label if you get the context and the default is "Lable". \n"rich_text": "value"\n    "value" takes any string and the default value is "<p>The world works with ServiceNow</p>".Feel free to edit the html string depending\n    on what the user asks to accomodate itallic, bold, colors and font of text when asked by the user/command.\n"heading": "variant" and "label"\n    possible values for the features of "heading" are:\n        "variant" can take 6 values namely "header-primary","header-secondary","header-tertiary","title-primary","title-secondary","title-tertiary", the default value is "header-primary".\n        "label" can take any string, with default as "Lable", feel free to fill the value of "label" based on the context given.\n    If the user ask for you to explain some subtopics then make another header component but its default value will be "title-primary".\n    If the sub topics have sub topics further then make the header for those topics and set the value to "title-secondary" and so on.\n"check_box": "size","checked","label","required"\n    possible values for the features of "check box" are:\n        "size": small and medium used as "sm" and "md" and the default is "sm".\n        "checked": can take 2 values true and false. Default is false.\n        "label": can take any string. If you get the context feel free to edit. default is "make your choice".\n        "reuired": can take 2 value true or false. Default is true.\n\n"pill":"label","size"\n    possible values for the features of "pill" are:\n    "label": fill it according to the context given. If you cannot get the context fill "text here".\n    "size": "xs","sm" and "md" meaning extra small, small and medium respectively. "md" is default.\n\n\n\n\nFor example;\nCommand: "A webpage with a heading a rich text a text area a input and 2 buttons in a container one is small and another large"\nAnswer: \n[{         \n    "heading_1":[],\n    "rich_text_1":[],\n    "textarea_1":[],\n    "input_1":[],\n    "container_1":["button_1","button_2"],\n    "button_1":[],\n    "button_2":[]\n    } ,         \n    {\n    "heading_1":{"variant":"header-primary","label":"We make work, work better for people with modern digital workflows"}\n    "rich_text_1":{"value":"<p>The world works with ServiceNow</p>"}\n    "textarea_1":{"size":"sm","color":"initial","label":"Text Area"}\n    "input_1":{"size":"sm","type":"text","label":"Label"}\n    "container_1":{"type":"section","direction":"row"}\n    "button_1":{"size":"sm", "disabled","False","variant":"secondary","label":"click"},\n    "button_2":{"size":"lg","disabled":"False" ,"variant":"secondary","label":"click"},\n    },\n]\nSince rich text feature "value" is a html string, we can edit it accordingly to accomodate color and font of the text when asked for in the input. \n\nNow let\'s add another section which contains styles of each component. \nThe styles that exists are : "flex","background","box-shadow","margin" and "padding".\n\n"flex" can take 3 values namely: "none", "grow", "shrink".\n"background" can take any color code, if the user doesnt give us a code but mentions a color, feel free to get its closest color code.\n"shadow" can take 5 values: "sm", "md", "lg", "xl", "xxl" which correspond to small, medium, large, extra large and extra extra large respectively.  \n"margin" and "padding" take 8 values : "xxs", "xs", "sm", "md", "lg", "xl", "xxl", "3xl".\nCommand: "a web page with a button in a container and the container flex is grow, margin is medium, ppadding is medium, background having colour code 2626AC and box shadow as large."\nANSWER:\n[\n{\n    "container_1":["button_1"],\n    "button_1":[]\n},\n{\n    "container_1":{"type":"section","direction":"row"},\n    "button_1":{"size":"sm", "disabled",false,"variant":"secondary","label":"click"}\n},\n{\n    "container_1":{"flex":"grow","margin":"md","padding":"md","background":"#2626AC","box-shadow":"lg"},\n    "button_1":{}\n}\n]\n\nNote that all the components have been mentioned in all the sections, and button was an empty dictionary in the third section as no information was given on the button\'s style.\n\nIf left for you use the mentioned styles and components and various combinations of those.\nExpand the content for the features mentioned by the user in their individual containers. Use nested containers to keep related things together, and maybe flex-direction to row, so that it feels they are actually related.\nUse your creativity at your fullest. Use styles like padding, margins, font sizes, font-family etc to make it look good. \nSet the sizes like width and height of containers appropriately so the components don\'t stretch out to the corners of the page.\nUse the available components when there is a suitable component. use rich text to create any custom component that you want to create. Use <div>s extensively so that you can add styles for everything in detail. Dont forget to add styles in rich texts. try to use gray scaled colors.\n\nIf we ask for web page for a "project dashboard". use this as starting point and build up on it. \n[{\n"container_1": ["heading_1", "container_2"],\n"container_2": ["container_3", "container_4"],\n"container_3": ["heading_2", "container_5", "container_6", "container_7"],\n"container_4": ["heading_3", "container_8", "container_9", "container_10"],\n"container_5": ["heading_4", "rich_text_1"],\n"container_6": ["heading_5", "rich_text_2"],\n"container_7": ["heading_6", "rich_text_3"],\n"container_8": ["heading_7", "rich_text_4"],\n"container_9": ["heading_8", "rich_text_5"],\n"container_10": ["heading_9", "rich_text_6"],\n"heading_1": [],\n"heading_2": [],\n"heading_3": [],\n"heading_4": [],\n"heading_5": [],\n"heading_6": [],\n"heading_7": [],\n"heading_8": [],\n"heading_9": [],\n"rich_text_1": [],\n"rich_text_2": [],\n"rich_text_3": [],\n"rich_text_4": [],\n"rich_text_5": [],\n"rich_text_6": []\n}, {\n"container_1": {"type": "section", "direction": "column"},\n"container_2": {"type": "section", "direction": "column"},\n"container_3": {"type": "section", "direction": "column"},\n"container_4": {"type": "section", "direction": "column"},\n"container_5": {"type": "section", "direction": "column"},\n"container_6": {"type": "section", "direction": "column"},\n"container_7": {"type": "section", "direction": "column"},\n"container_8": {"type": "section", "direction": "column"},\n"container_9": {"type": "section", "direction": "column"},\n"container_10": {"type": "section", "direction": "column"},\n"heading_1": {"variant": "header-primary", "label": "Project Dashboard Management"},\n"heading_2": {"variant": "title-primary", "label": "Activity Tracking Dashboard"},\n"heading_3": {"variant": "title-primary", "label": "Financials"},\n"heading_4": {"variant": "title-secondary", "label": "Deadlines"},\n"heading_5": {"variant": "title-secondary", "label": "Upcoming Events"},\n"heading_6": {"variant": "title-secondary", "label": "Resource Availability"},\n"heading_7": {"variant": "title-secondary", "label": "Net Present Value"},\n"heading_8": {"variant": "title-secondary", "label": "Internal Rate of Return"},\n"heading_9": {"variant": "title-secondary", "label": "Expected Sales"},\n"rich_text_1": {"value": "<div><p style=\'color:#333;\'><b>Deadlines:</b> Keep track of all project deadlines and prioritize tasks based on their due dates. This helps in ensuring that all milestones are met on time.</p><ul style=\'padding-left:20px;\'><li style=\'margin-bottom:5px;\'>Task 1: Deadline on 1st June</li><li>Task 2: Deadline on 15th June</li></ul></div>"},\n"rich_text_2": {"value": "<div><p style=\'color:#333;\'><b>Upcoming Events:</b> Stay updated with all the project-related events such as meetings, workshops, and conferences. This helps in better planning and coordination among team members.</p><ul style=\'padding-left:20px;\'><li style=\'margin-bottom:5px;\'>Weekly Meeting: Every Monday at 10 AM</li><li>Workshop: 5th June</li></ul></div>"},\n"rich_text_3": {"value": "<div><p style=\'color:#333;\'><b>Resource Availability:</b> Manage and allocate resources efficiently to ensure smooth project execution. Keep track of available resources and their utilization.</p><table style=\'width:100%;\'><tr style=\'background-color:#F0F0F0;\'><th style=\'padding:5px;\'>Resource</th><th style=\'padding:5px;\'>Availability</th></tr><tr><td style=\'padding:5px;\'>Team Member A</td><td style=\'padding:5px;\'>80%</td></tr><tr style=\'background-color:#F0F0F0;\'><td style=\'padding:5px;\'>Team Member B</td><td style=\'padding:5px;\'>60%</td></tr></table></div>"},\n"rich_text_4": {"value": "<div><p style=\'color:#333;\'><b>Net Present Value (NPV):</b> Calculate the net present value of the project to determine its profitability. NPV helps in making informed investment decisions.</p><p style=\'margin-bottom:5px;\'>Current NPV: $12,345</p></div>"},\n"rich_text_5": {"value": "<div><p style=\'color:#333;\'><b>Internal Rate of Return (IRR):</b> Estimate the project\'s internal rate of return to measure its efficiency and potential growth. IRR helps in comparing different investment opportunities.</p><p style=\'margin-bottom:5px;\'>Current IRR: 15%</p></div>"},\n"rich_text_6": {"value": "<div><p style=\'color:#333;\'><b>Expected Sales:</b> Forecast the expected sales from the project to evaluate its revenue generation potential. This helps in identifying the most profitable projects.</p><p style=\'margin-bottom:5px;\'>Expected Sales: $50,000</p></div>"}\n}, {\n"container_1": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n"container_2": {"flex": "grow", "padding": "md", "margin": "md"},\n"container_3": {"flex": "grow", "padding": "md", "margin": "md"},\n"container_4": {"flex": "grow", "padding": "md", "margin": "md"},\n"container_5": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"container_6": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"container_7": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"container_8": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"container_9": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"container_10": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},\n"heading_1": {"padding": "md", "margin": "md"},\n"heading_2": {"padding": "sm", "margin": "sm"},\n"heading_3": {"padding": "sm", "margin": "sm"},\n"heading_4": {"padding": "xs", "margin": "xs"},\n"heading_5": {"padding": "xs", "margin": "xs"},\n"heading_6": {"padding": "xs", "margin": "xs"},\n"heading_7": {"padding": "xs", "margin": "xs"},\n"heading_8": {"padding": "xs", "margin": "xs"},\n"heading_9": {"padding": "xs", "margin": "xs"},\n"rich_text_1": {"padding": "xs", "margin": "xs"},\n"rich_text_2": {"padding": "xs", "margin": "xs"},\n"rich_text_3": {"padding": "xs", "margin": "xs"},\n"rich_text_4": {"padding": "xs", "margin": "xs"},\n"rich_text_5": {"padding": "xs", "margin": "xs"},\n"rich_text_6": {"padding": "xs", "margin": "xs"}\n}]\n\nIf we ask a web page for train ticketing. Use can use the template below and build on it. \n[{\n    "container_1": ["heading_1"],\n    "container_2": ["heading_2"],\n    "container_3": ["rich_text_1"],\n    "container_4": ["heading_3"],\n    "container_5": ["input_1", "input_2", "input_3", "input_4", "input_5", "button_1"],\n    "container_6": ["heading_4"],\n    "container_7": ["rich_text_2"],\n    "container_8": ["heading_5"],\n    "container_9": ["rich_text_3"],\n    "container_10": ["input_6", "input_7", "button_2", "button_3", "button_4"]\n    },\n    {\n    "container_1": {"type": "section", "direction": "column"},\n    "container_2": {"type": "section", "direction": "column"},\n    "container_3": {"type": "section", "direction": "column"},\n    "container_4": {"type": "section", "direction": "column"},\n    "container_5": {"type": "section", "direction": "column"},\n    "container_6": {"type": "section", "direction": "column"},\n    "container_7": {"type": "section", "direction": "column"},\n    "container_8": {"type": "section", "direction": "column"},\n    "container_9": {"type": "section", "direction": "column"},\n    "container_10": {"type": "section", "direction": "row"},\n    "heading_1": {"variant": "header-primary", "label": "Train Ticket Booking Portal"},\n    "heading_2": {"variant": "title-primary", "label": "Your one-stop destination for seamless train ticket bookings!"},\n    "rich_text_1": {"value": "<p>Welcome to our Train Ticket Booking Portal! Enjoy a hassle-free experience of booking train tickets for your upcoming journeys. Our user-friendly platform offers you an extensive range of trains running across the country, giving you the flexibility to choose the best-suited train, class, and timings for your travel plans. Book with us and embark on a comfortable and enjoyable train journey.</p>"},\n    "heading_3": {"variant": "title-primary", "label": "Book Your Train Tickets Now"},\n    "input_1": {"size": "sm", "type": "text", "label": "Enter your departure city:"},\n    "input_2": {"size": "sm", "type": "text", "label": "Enter your destination city:"},\n    "input_3": {"size": "sm", "type": "date", "label": "Select the date of travel:"},\n    "input_4": {"size": "sm", "type": "dropdown", "label": "Number of passengers:"},\n    "input_5": {"size": "sm", "type": "dropdown", "label": "Select your preferred class:"},\n    "button_1": {"size": "md", "disabled": false, "variant": "secondary", "label": "Search Trains"},\n    "heading_4": {"variant": "title-primary", "label": "Why Choose Our Train Ticket Booking Portal?"},\n    "rich_text_2": {"value": "<ul><li>Comprehensive database of trains: Access the schedule, routes, and seat availability of thousands of trains across the country.</li><li>Secure and easy payment options: We offer a variety of secure payment methods, including credit/debit cards, net banking, and popular mobile wallets.</li><li>Instant ticket confirmation: Receive your train ticket confirmation and PNR number instantly via email and SMS.</li><li>24/7 customer support: Our dedicated customer support team is available round the clock to assist you with any queries or issues related to your train ticket bookings.</li><li>Special discounts and offers: Avail exclusive offers and discounts on train tickets, especially for senior citizens, students, and frequent travelers.</li></ul>"},\n    "heading_5": {"variant": "title-primary", "label": "FAQs"},\n    "rich_text_3": {"value": "<p><b>How can I check the train schedule and seat availability?</b><br>Enter your departure city, destination city, date of travel, and the number of passengers in the required fields, and click on the "Search Trains" button. The list of available trains, along with their schedule and seat availability, will be displayed on the screen.</p><p><b>Can I book tickets for a round trip?</b><br>Yes, you can book tickets for a round trip. After selecting the train for your onward journey, you can choose the return train from the list of available options.</p><p><b>How do I cancel my train ticket?</b><br>To cancel your train ticket, log in to your account, go to the "My Bookings" section, select the ticket you want to cancel, and click on the "Cancel Ticket" button. The refund, if applicable, will be processed as per the cancellation policy.</p><p><b>Can I change my travel date or passenger details after booking the ticket?</b><br>Yes, you can change the travel date or passenger details by canceling the existing ticket and booking a new one with the updated information.</p><p><b>How can I avail discounts on train tickets?</b><br>To avail discounts on train tickets, enter the relevant coupon code or select the applicable concession category while booking the ticket.</p>"},\n    "input_6": {"size": "sm", "type": "phone", "label": "Phone Number"},\n    "input_7": {"size": "sm", "type": "email", "label": "Email Address"},\n    "button_2": {"size": "md", "disabled": false, "variant": "secondary", "label": "Login/Register"},\n    "button_3": {"size": "md", "disabled": false, "variant": "secondary", "label": "My Bookings"},\n    "button_4": {"size": "md", "disabled": false, "variant": "secondary", "label": "Help Center"},\n    "button_5": {"size": "md", "disabled": false, "variant": "secondary", "label": "About Us"}\n    },\n    {\n    "container_1": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_2": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_3": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_4": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_5": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_6": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_7": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_8": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_9": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "container_10": {"background": "#F5F5F5", "padding": "md", "margin": "md"},\n    "heading_1": {"padding": "md", "margin": "md"},\n    "heading_2": {"padding": "sm", "margin": "sm"},\n    "rich_text_1": {"padding": "md", "margin": "md"},\n    "heading_3": {"padding": "md", "margin": "md"},\n    "input_1": {"padding": "sm", "margin": "sm"},\n    "input_2": {"padding": "sm", "margin": "sm"},\n    "input_3": {"padding": "sm", "margin": "sm"},\n    "input_4": {"padding": "sm", "margin": "sm"},\n    "input_5": {"padding": "sm", "margin": "sm"},\n    "button_1": {"padding": "md", "margin": "md"},\n    "heading_4": {"padding": "md", "margin": "md"},\n    "rich_text_2": {"padding": "md", "margin": "md"},\n    "heading_5": {"padding": "md", "margin": "md"},\n    "rich_text_3": {"padding": "md", "margin": "md"},\n    "input_6": {"padding": "sm", "margin": "sm"},\n    "input_7": {"padding": "sm", "margin": "sm"},\n    "button_2": {"padding": "md", "margin": "md"},\n    "button_3": {"padding": "md", "margin": "md"},\n    "button_4": {"padding": "md", "margin": "md"},\n    "button_5": {"padding": "md", "margin": "md"}\n    }]\n\nFor rich-text, use the html tags like : div, a, abbr, acronym, address, b, bdi, bdo, blockquote, br, cite, code, del, dfn, em, i, ins, kbd, mark, q, s, samp, small, span, strong, sub, sup, time, u, var\nFor rich-text, use the css styles like: color, background-color, font-family, font-size, font-weight, text-align, text-decoration, text-transform, white-space, line-height, opacity, text-shadow, letter-spacing, word-spacing, overflow-wrap, word-break, hyphens, vertical-align, direction\n\nJust write the list which has 3 sections.\nFirst the flow and second the features of each element and 3rd the having styles of components if mentioned. Just write the list which has 3 sections nothing more.\nGive the output in the format only. No extra text needed:\n[{}, {}, {}]\n\n';
+var inputs = {};
+inputs['deployment_id'] = 'gpt-4-32k'; // String 
+inputs['messages'] = [{ 'role': 'system', 'content': system_message }, { 'role': 'user', 'content': userprompt }];
+inputs['temperature'] = 0.7;
+inputs['max_tokens'] = 32000; // Integer 
+inputs['presence_penalty'] = 0; // Floating Point Number 
+inputs['frequency_penalty'] = 0; // Floating Point Number 
+inputs['top_p'] = 0.95; // Floating Point Number 
+
+// Execute Synchronously: Run in foreground. Code snippet has access to outputs.
+var result = sn_fd.FlowAPI.getRunner().action('sn_azure_openai.chat_completions').inForeground().withInputs(inputs).timeout(120000).run();
+var outputs = result.getOutputs();
+
+// Get Outputs:
+// Note: outputs can only be retrieved when executing synchronously.
+var id = outputs['id']; // String
+var object = outputs['object']; // String
+var created = outputs['created']; // Integer
+var model = outputs['model']; // String
+var usage = outputs['usage']; // Object
+var choices = outputs['choices']; // Array.Object
+var ans = choices[0]['message']['content'];
+gs.info(ans);
+var container_template = {
+    "elementId": "container_1",
+    "elementLabel": "Container 1",
+    "propertyValues": {
+        "ariaRegionHeadingLevel": {
+            "type": "JSON_LITERAL",
+            "value": "1"
+        },
+        "hideEmptyStateUi": {
+            "type": "JSON_LITERAL",
+            "value": true
+        },
+        "ariaRegionName": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "",
+                "comment": ""
+            }
+        },
+        "includeAriaHeading": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "type": {
+            "type": "JSON_LITERAL",
+            "value": "section"
+        },
+        "ariaRole": {
+            "type": "JSON_LITERAL",
+            "value": ""
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "d356d14b6e293a3020a244b63d278d8f",
+        "type": "MACROPONENT"
+    },
+    "overrides": {
+        "composition": [],
+        "layout": {
+            "default": {
+                "children": null,
+                "isInline": null,
+                "items": [],
+                "root": null,
+                "rules": null,
+                "styles": { "flex-direction": "column" },
+                "templateId": "5832fd4d53c31010e6bcddeeff7b12db",
+                "type": "flex"
+            },
+            "version": "3.0.0"
+        }
+    },
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": { "width": "100%" }
+};
+
+var button_template = {
+    "elementId": "button_1",
+    "elementLabel": "Button 1",
+    "propertyValues": {
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "variant": {
+            "type": "JSON_LITERAL",
+            "value": "secondary"
+        },
+        "icon": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "disabled": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Button",
+                "comment": ""
+            }
+        },
+        "tooltipContent": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Enter a label",
+                "comment": ""
+            }
+        },
+        "configAria": {
+            "type": "MAP_CONTAINER",
+            "container": {}
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "d37ce8abca89d02905fed903c8e34d8e",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var starter_template = {
+    "elementId": "modalContainerViewport",
+    "elementLabel": "Modal Container (Viewport)",
+    "propertyValues": {
+        "labelledby": {
+            "type": "JSON_LITERAL",
+            "value": ""
+        },
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "contents": {
+            "type": "DATA_OUTPUT_BINDING",
+            "binding": {
+                "address": ["record", "contents"]
+            }
+        },
+        "disableDismiss": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "bare": {
+            "type": "DATA_OUTPUT_BINDING",
+            "binding": {
+                "address": ["record", "bare"]
+            }
+        },
+        "displayOptions": {
+            "type": "DATA_OUTPUT_BINDING",
+            "binding": {
+                "address": ["record", "displayOptions"]
+            }
+        }
+    },
+    "eventMappings": [{
+        "eventMappingId": "clcchhgjhhnzaabbccqddghhgjhuuaabbcii",
+        "isConfiguration": false,
+        "offRowStorageId": null,
+        "sourceEventApiName": "sn_uxf_page.CANVAS_MODAL#CLOSED",
+        "sourceEventCorrelationId": null,
+        "sourceEventDefinition": {
+            "apiName": "sn_uxf_page.CANVAS_MODAL#CLOSED",
+            "id": null,
+            "type": "UXEVENT"
+        },
+        "sourceEventSysId": null,
+        "targets": [{
+            "broker": null,
+            "clientScript": null,
+            "conditional": null,
+            "declarativeAction": null,
+            "event": null,
+            "operation": {
+                "dataBrokerId": "029f04e053610110ac9bddeeff7b1294",
+                "operationName": "RECORD#CLOSE_MODAL",
+                "parentResourceId": "record",
+                "payload": {
+                    "type": "JSON_LITERAL",
+                    "value": {}
+                }
+            },
+            "targetId": "clcchhgjhhnzaabbccrddghhgvlraaggojjhh",
+            "type": "DATABROKER_OP"
+        }]
+    }],
+    "slot": null,
+    "definition": {
+        "id": "61c315e9ccb8970546c30f3e2da41a32",
+        "type": "MACROPONENT_VIEWPORT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": ""
+    },
+    "isHero": false,
+    "extensionPoints": [{
+        "controllerDependencyMap": {},
+        "controllerElementId": "",
+        "name": "Record page modals",
+        "sysId": "e38960c1c30301103581a5a1d840dd45"
+    }],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": null
+};
+
+var starter_layout = {
+    "default": {
+        "children": null,
+        "isInline": null,
+        "items": [],
+        "root": null,
+        "rules": null,
+        "styles": { "flex-direction": "column" },
+        "templateId": "5832fd4d53c31010e6bcddeeff7b12db",
+        "type": "flex"
+    },
+    "version": "3.0.0"
+};
+
+var heading_template = {
+    "elementId": "heading_1",
+    "elementLabel": "Heading 1",
+    "propertyValues": {
+        "hasNoMargin": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "level": {
+            "type": "JSON_LITERAL",
+            "value": "1"
+        },
+        "variant": {
+            "type": "JSON_LITERAL",
+            "value": "header-primary"
+        },
+        "wontWrap": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "We make work, work better for people with modern digital workflows",
+                "comment": ""
+            }
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "1f6e0643eca7a637e36bd7833549ec9e",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var rich_text_template = {
+    "elementId": "rich_text_1",
+    "elementLabel": "Rich text 1",
+    "propertyValues": {
+        "html": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "<p>The world works with ServiceNow</p>",
+                "comment": ""
+            }
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "2d56f06d55f46bbd4e79b5e624beb940",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var text_area_template = {
+    "elementId": "textarea_1",
+    "elementLabel": "Textarea 1",
+    "propertyValues": {
+        "minlength": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "color": {
+            "type": "JSON_LITERAL",
+            "value": "initial"
+        },
+        "maxlength": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "showCounter": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "autoresize": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "helperContent": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": " ",
+                "comment": ""
+            }
+        },
+        "optional": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Textarea",
+                "comment": ""
+            }
+        },
+        "autofocus": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "rows": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "configAria": {
+            "type": "MAP_CONTAINER",
+            "container": {}
+        },
+        "required": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "sm"
+        },
+        "readonly": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "invalid": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "name": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "messages": {
+            "type": "JSON_LITERAL",
+            "value": []
+        },
+        "resize": {
+            "type": "JSON_LITERAL",
+            "value": "vertical"
+        },
+        "disabled": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "placeholder": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "value": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "cols": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "hideRequiredIndicator": {
+            "type": "JSON_LITERAL",
+            "value": false
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "d667a5e769598b2e5c6e92ebe73394f6",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var input_template = {
+    "elementId": "input_1",
+    "elementLabel": "Input 1",
+    "propertyValues": {
+        "minlength": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "maxlength": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "max": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "multiple": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "helperContent": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "pattern": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "optional": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Label",
+                "comment": ""
+            }
+        },
+        "type": {
+            "type": "JSON_LITERAL",
+            "value": "ip"
+        },
+        "autofocus": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "configAria": {
+            "type": "MAP_CONTAINER",
+            "container": {
+                "input": {
+                    "type": "MAP_CONTAINER",
+                    "container": {}
+                }
+            }
+        },
+        "required": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "min": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "readonly": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "name": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "invalid": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "messages": {
+            "type": "JSON_LITERAL",
+            "value": []
+        },
+        "disabled": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "step": {
+            "type": "JSON_LITERAL",
+            "value": "any"
+        },
+        "placeholder": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "value": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "hideRequiredIndicator": {
+            "type": "JSON_LITERAL",
+            "value": false
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "bb0f92e8d7eff1590624bfe69d316f23",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": null
+};
+
+var icon_template = {
+    "elementId": "icon_1",
+    "elementLabel": "Icon 1",
+    "propertyValues": {
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "icon": {
+            "type": "JSON_LITERAL",
+            "value": "circle-question-outline"
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "33eaddad37cf901283bbdc7a574773b9",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var checkbox_template = {
+    "elementId": "checkbox_1",
+    "elementLabel": "Checkbox 1",
+    "propertyValues": {
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "readonly": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "name": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "invalid": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "checked": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "disabled": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Make a choice",
+                "comment": ""
+            }
+        },
+        "configAria": {
+            "type": "MAP_CONTAINER",
+            "container": {}
+        },
+        "required": {
+            "type": "JSON_LITERAL",
+            "value": false
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "b5ef11d7766e63aea1a8113e8360b276",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var image_template = {
+    "elementId": "image_1",
+    "elementLabel": "Image 1",
+    "propertyValues": {
+        "fit": {
+            "type": "JSON_LITERAL",
+            "value": "fill"
+        },
+        "src": {
+            "type": "JSON_LITERAL",
+            "value": "/now-image-placeholder.jpg"
+        },
+        "alt": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "",
+                "comment": ""
+            }
+        },
+        "position": {
+            "type": "JSON_LITERAL",
+            "value": "center center"
+        },
+        "height": {
+            "type": "JSON_LITERAL",
+            "value": null
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "15fe506403f8a98575b6df59008ea8f1",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var pill_template = {
+    "elementId": "pill_1",
+    "elementLabel": "Pill 1",
+    "propertyValues": {
+        "size": {
+            "type": "JSON_LITERAL",
+            "value": "md"
+        },
+        "canDismiss": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "icon": {
+            "type": "JSON_LITERAL",
+            "value": "circle-exclamation-outline"
+        },
+        "disabled": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "label": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Issue 42",
+                "comment": ""
+            }
+        },
+        "configAria": {
+            "type": "MAP_CONTAINER",
+            "container": {}
+        },
+        "avatarProps": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "selected": {
+            "type": "JSON_LITERAL",
+            "value": false
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "0ae8d8d41322ecc6dc1e0f0685560945",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+var carousel_template = {
+    "elementId": "carousel_1",
+    "elementLabel": "Carousel 1",
+    "propertyValues": {
+        "itemsInView": {
+            "type": "JSON_LITERAL",
+            "value": "multiple-content-items"
+        },
+        "titlePosition": {
+            "type": "JSON_LITERAL",
+            "value": "left"
+        },
+        "emptyStateLabel": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "No content to display",
+                "comment": ""
+            }
+        },
+        "linkText": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "View all",
+                "comment": ""
+            }
+        },
+        "disableLooping": {
+            "type": "JSON_LITERAL",
+            "value": true
+        },
+        "navStyle": {
+            "type": "JSON_LITERAL",
+            "value": "fill"
+        },
+        "startingIndex": {
+            "type": "JSON_LITERAL",
+            "value": 0
+        },
+        "carouselTitle": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Title",
+                "comment": ""
+            }
+        },
+        "titleVariant": {
+            "type": "JSON_LITERAL",
+            "value": "header-tertiary"
+        },
+        "hideTitle": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "titleLevel": {
+            "type": "JSON_LITERAL",
+            "value": "2"
+        },
+        "emptyStateContent": {
+            "type": "TRANSLATION_LITERAL",
+            "value": {
+                "code": null,
+                "message": "Please add components into the carousel",
+                "comment": ""
+            }
+        },
+        "emptyStateIllustration": {
+            "type": "JSON_LITERAL",
+            "value": "completed-tasks"
+        },
+        "gradientStyle": {
+            "type": "JSON_LITERAL",
+            "value": "primary"
+        },
+        "linkIcon": {
+            "type": "JSON_LITERAL",
+            "value": "arrow-right-fill"
+        },
+        "hideLink": {
+            "type": "JSON_LITERAL",
+            "value": false
+        },
+        "navPosition": {
+            "type": "JSON_LITERAL",
+            "value": "center"
+        },
+        "slidingType": {
+            "type": "JSON_LITERAL",
+            "value": "next-set-of-items"
+        },
+        "hideDotIndicator": {
+            "type": "JSON_LITERAL",
+            "value": false
+        }
+    },
+    "eventMappings": [],
+    "slot": null,
+    "definition": {
+        "id": "b2429385cb0363208b764c151e2d1171",
+        "type": "MACROPONENT"
+    },
+    "overrides": null,
+    "isHidden": {
+        "type": "JSON_LITERAL",
+        "value": null
+    },
+    "isHero": false,
+    "extensionPoints": [],
+    "isNonDestructive": false,
+    "items": [],
+    "styles": {}
+};
+
+function mergeObjects() {
+    var resObj = {};
+    for (var i = 0; i < arguments.length; i += 1) {
+        var obj = arguments[i],
+            keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; j += 1) {
+            resObj[keys[j]] = obj[keys[j]];
+        }
+    }
+    return resObj;
+}
+
+function Decoder(str) {
+    this.visited = {};
+    this.parsed_temp = null;
+    this.temp = JSON.parse(str);
+    this.tree = this.temp[0];
+    this.config = this.temp[1];
+    this.style = this.temp[2];
+
+    this.flex_map = {
+        "none": "none",
+        "shrink": "0 1 auto",
+        "grow": "1 0 auto",
+    }
+    for (var a in this.tree) {
+        if (this.tree.hasOwnProperty(a)) {
+            this.visited[a] = false;
+        }
+    }
+
+    this.starter_helper = function () {
+        var count_dict = {};
+        var layout = JSON.parse(JSON.stringify(starter_layout));
+        for (var k in this.tree) {
+            if (this.tree.hasOwnProperty(k)) {
+                count_dict[k] = 0;
+                var children = this.tree[k];
+                for (var i = 0; i < children.length; i++) {
+                    var e = children[i];
+                    count_dict[e] = 0;
+                }
+            }
+        }
+
+        for (var child in this.tree) {
+            if (this.tree.hasOwnProperty(child)) {
+                var children = this.tree[child];
+                for (var i = 0; i < children.length; i++) {
+                    var e = children[i];
+                    count_dict[e]++;
+                }
+            }
+        }
+
+        for (var child in count_dict) {
+            if (count_dict.hasOwnProperty(child)) {
+                if (count_dict[child] === 0) {
+                    var temp_json = {
+                        element_id: child,
+                        styles: {},
+                    };
+
+                    var parsed_styles = this.style[child];
+                    this.add_styles(temp_json, parsed_styles);
+                    layout['default']['items'].push(temp_json);
+                }
+            }
+        }
+        return layout;
+    };
+
+    this.layout_helper = function (component_name) {
+        var layout = JSON.parse(JSON.stringify(starter_layout));
+        // gs.info(JSON.stringify(layout));
+        var children = this.tree[component_name];
+
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            var temp_json = {
+                element_id: child,
+                styles: {},
+            };
+
+            var parsed_styles = this.style[child];
+            this.add_styles(temp_json, parsed_styles);
+            layout['default']['items'].push(temp_json);
+        }
+
+        return layout;
+    };
+
+    this.get_template = function (component_name) {
+        var parsed_temp = {};
+        if (component_name.startsWith('container_')) {
+            parsed_temp = JSON.parse(JSON.stringify(container_template));
+        } else if (component_name.startsWith('button_')) {
+            parsed_temp = JSON.parse(JSON.stringify(button_template));
+        } else if (component_name.startsWith('heading_')) {
+            parsed_temp = JSON.parse(JSON.stringify(heading_template));
+        } else if (component_name.startsWith('rich_text_')) {
+            parsed_temp = JSON.parse(JSON.stringify(rich_text_template));
+        } else if (component_name.startsWith('textarea_') || component_name.startsWith('text_area_')) {
+            parsed_temp = JSON.parse(JSON.stringify(text_area_template));
+        }
+        else if (component_name.startsWith('input_')) {
+            parsed_temp = JSON.parse(JSON.stringify(input_template));
+        }
+        else if (component_name.startsWith('icon_')) {
+            parsed_temp = JSON.parse(JSON.stringify(icon_template));
+        }
+        else if (component_name.startsWith('checkbox_') || component_name.startsWith('check_box_')) {
+            parsed_temp = JSON.parse(JSON.stringify(checkbox_template));
+        }
+        else if (component_name.startsWith('image_')) {
+            parsed_temp = JSON.parse(JSON.stringify(image_template));
+        }
+        else if (component_name.startsWith('pill_')) {
+            parsed_temp = JSON.parse(JSON.stringify(pill_template));
+        }
+        else if (component_name.startsWith('carousel_')) {
+            parsed_temp = JSON.parse(JSON.stringify(carousel_template));
+        }
+        return parsed_temp;
+    }
+
+    this.add_config = function (parsed_out, parsed_config) {
+        for (var config in parsed_config) {
+            switch (config) {
+                case "type":
+                    parsed_out['propertyValues']['type']['value'] = parsed_config[config];
+                    break;
+                case "size":
+                    parsed_out['propertyValues']['size']['value'] = parsed_config[config];
+                    break;
+                case "label":
+                    parsed_out['propertyValues']['label']['value']['message'] = parsed_config[config];
+                    break;
+                case "linkText":
+                    parsed_out['propertyValues']['linkText']['value']['message'] = parsed_config[config];
+                    break;
+                case "alt":
+                    parsed_out['propertyValues']['alt']['value']['message'] = parsed_config[config];
+                    break;
+                case "carouselTitle":
+                    parsed_out['propertyValues']['carouselTitle']['value']['message'] = parsed_config[config];
+                    break;
+                case "disabled":
+                    parsed_out['propertyValues']["disabled"]['value'] = parsed_config[config];
+                    break;
+                case "variant":
+                    parsed_out['propertyValues']["variant"]['value'] = parsed_config[config];
+                    break;
+                case "color":
+                    parsed_out['propertyValues']['color']['value'] = parsed_config[config];
+                    break;
+                case "value":
+                    parsed_out['propertyValues']['html']['value']['message'] = parsed_config[config];
+                    break;
+                case "icon":
+                    parsed_out['propertyValues']['icon']['value'] = parsed_config[config];
+                    break;
+                case "checked":
+                    parsed_out['propertyValues']['checked']['value'] = parsed_config[config];
+                    break;
+                case "required":
+                    parsed_out['propertyValues']['required']['value'] = parsed_config[config];
+                    break;
+                case "fit":
+                    parsed_out['propertyValues']['fit']['value'] = parsed_config[config];
+                    break;
+                case "position":
+                    parsed_out['propertyValues']['position']['value'] = parsed_config[config];
+                    break;
+                case "height":
+                    parsed_out['propertyValues']['height']['value'] = parsed_config[config];
+                    break;
+                case "width":
+                    parsed_out['styles']['width'] = parsed_config[config];
+                    break;
+                case "src":
+                    parsed_out['propertyValues']['src']['value'] = parsed_config[config];
+                    break;
+                case "titleVariant":
+                    parsed_out['propertyValues']['titleVariant']['value'] = parsed_config[config];
+                    break;
+                case "titleLevel":
+                    parsed_out['propertyValues']['titleLevel']['value'] = parsed_config[config];
+                    break;
+                case "titlePosition":
+                    parsed_out['propertyValues']['titlePosition']['value'] = parsed_config[config];
+                    break;
+                case "direction":
+                    parsed_out['overrides']['layout']['default']['styles']['flex-direction'] = parsed_config[config];
+                break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
+    this.add_styles = function (styles_out, parsed_styles) {
+        for (var style in parsed_styles) {
+            switch (style) {
+                case "background":
+                    styles_out.styles['background'] = parsed_styles[style];
+                    break;
+                case "flex":
+                    styles_out.styles['flex'] = this.flex_map[parsed_styles[style]];
+                    break;
+                case "margin":
+                    styles_out.styles["margin"] = "var(--now-static-space--" + parsed_styles[style] + ")";
+                    break;
+                case "padding":
+                    styles_out.styles["padding"] = "var(--now-static-space--" + parsed_styles[style] + ")";
+                    break;
+                case "box-shadow":
+                    styles_out.styles['box-shadow'] = "var(--now-static-drop-shadow--" + parsed_styles[style] + ")";
+                    break;
+            }
+        }
+    }
+
+    this.composition_helper = function (component_name, children) {
+        var parsed_temp = this.get_template(component_name);
+        if (component_name.length !== 0) {
+            parsed_temp.elementId = component_name;
+            parsed_temp.elementLabel = component_name;
+            parsed_temp.eventMappings = [];
+            parsed_temp.definition.type = 'MACROPONENT';
+            this.visited[component_name] = true;
+        }
+
+        if (children.length !== 0) {
+            parsed_temp.overrides = {};
+            parsed_temp.overrides.layout = this.layout_helper(component_name);
+            parsed_temp.overrides.composition = [];
+
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                if (!this.visited[child]) {
+                    var a = this.composition_helper(child, this.tree[child]);
+                    parsed_temp.overrides.composition.push(a);
+                }
+            }
+        }
+        this.add_config(parsed_temp, this.config[component_name]);
+        return parsed_temp;
+    };
+
+    this.test_func = function () {
+        var op = [];
+        // op.push(starter_template);
+
+        for (var a in this.tree) {
+            if (this.tree.hasOwnProperty(a)) {
+                if (!this.visited[a]) {
+                    op.push(this.composition_helper(a, this.tree[a]));
+                }
+            }
+        }
+
+        return op;
+    };
+}
+
+
+if(typeof ans !== 'string') {
+    ans = JSON.stringify(ans);
+}
+
+var decoder = new Decoder(ans);
+var layout = decoder.starter_helper();
+var composition = decoder.test_func();
+
+gs.info("Ans1: " + JSON.stringify(layout));
+gs.info("Ans2: " + JSON.stringify(composition));
+
+
+var table_record = new GlideRecord('sys_ux_macroponent');
+table_record.addQuery('sys_id', '9af56eee47bfa9101f3c149c346d4397');
+// table_record.addQuery('sys_id', '890a6ae247ffa9101f3c149c346d43a0');
+table_record.query();
+
+if (table_record.next()) {
+    table_record.setValue('layout', JSON.stringify(layout));
+    table_record.setValue('composition', JSON.stringify(composition));
+    table_record.update();
+}

@@ -1,0 +1,284 @@
+Prompt text
+
+Given a command we need the output as mentioned below:
+Command: "A web page with a heading a rich text and 2 Buttons in a container."
+Answer:
+[{
+"heading_1";[],  
+"rich_text_1":[],
+"container_1":["button_1","button_2"],
+"button_1":[],
+"button_2":[]       
+}]
+To give you context on what is going on, here we trying to write the given command as an array of dictionaries.
+In the above example since container contains two buttons, we treat them as containers children and add them to the array.
+Heading, rich text and button do not have any children so they have an empty array.
+
+All possible components that can be used are: "container", "button", "rich text", "text area", "heading", "input","check box","pill".
+Naming format must be followed like containers should be named as "container_{number}" example "container_1" similarly for "buttons","rich_text","text_area","input","heading","check_box","pill".
+
+Every component has some specific features which are listed below:
+"container" : "type" and "direction".
+    possible values for the features of "container" are:
+        "type" can take 5 values "section","article","header","footer","aside","address","main" default value is "section".
+        "direction" can take 2 value "row" and "column" default value is "column".
+"button" : "size","disabled","variant" and "label"
+    possible values for the features of "button" are:
+        "size" can take 3 values small,medium and large used as  "sm","md" and "lg" and the default value is "md".
+        "disabled" can take 2 value namely true and false and the default value is false.
+        "variant" can take 7 values "primary", "secondary", "tertiary", "positive primary", "positive secondary" , "negative primary" and "negative secondary" and the default value is "secondary".
+        "label" takes a string as value and the default one is "click". 
+"input" : "size","type" and "label"
+    possible values for the features of "input" are:
+        "size" can 2 two value small and medium used as "sm" and "md" and the default is "sm". 
+        "type" can take 4 values namely "email","text","number" and "ip" and the default is "text". 
+        "label" can take any string. Feel free to set the label if you get the context and the default is "Lable". 
+"rich_text": "value"
+"rich_text": "value"
+    "value" takes any string and the default value is "<p>The world works with ServiceNow</p>".Feel free to edit the html string depending
+    on what the user asks to accomodate itallic, bold, colors and font of text when asked by the user/command.
+"heading": "variant" and "label"
+    possible values for the features of "heading" are:
+        "variant" can take 6 values namely "header-primary","header-secondary","header-tertiary","title-primary","title-secondary","title-tertiary", the default value is "header-primary".
+        "label" can take any string, with default as "Lable", feel free to fill the value of "label" based on the context given.
+    If the user ask for you to explain some subtopics then make another header component but its default value will be "title-primary".
+    If the sub topics have sub topics further then make the header for those topics and set the value to "title-secondary" and so on.
+"check_box": "size","checked","label","required"
+    possible values for the features of "check box" are:
+        "size": small and medium used as "sm" and "md" and the default is "sm".
+        "checked": can take 2 values true and false. Default is false.
+        "label": can take any string. If you get the context feel free to edit. default is "make your choice".
+        "reuired": can take 2 value true or false. Default is true.
+
+"pill":"label","size"
+    possible values for the features of "pill" are:
+    "label": fill it according to the context given. If you cannot get the context fill "text here".
+    "size": "xs","sm" and "md" meaning extra small, small and medium respectively. "md" is default.
+
+
+
+
+For example;
+Command: "A webpage with a heading a rich text a text area a input and 2 buttons in a container one is small and another large"
+Answer: 
+[{         
+    "heading_1":[],
+    "rich_text_1":[],
+    "textarea_1":[],
+    "input_1":[],
+    "container_1":["button_1","button_2"],
+    "button_1":[],
+    "button_2":[]
+    } ,         
+    {
+    "heading_1":{"variant":"header-primary","label":"We make work, work better for people with modern digital workflows"}
+    "rich_text_1":{"value":"<p>The world works with ServiceNow</p>"}
+    "textarea_1":{"size":"sm","color":"initial","label":"Text Area"}
+    "input_1":{"size":"sm","type":"text","label":"Label"}
+    "container_1":{"type":"section","direction":"row"}
+    "button_1":{"size":"sm", "disabled","False","variant":"secondary","label":"click"},
+    "button_2":{"size":"lg","disabled":"False" ,"variant":"secondary","label":"click"},
+    },
+]
+Since rich text feature "value" is a html string, we can edit it accordingly to accomodate color and font of the text when asked for in the input. 
+
+Now let's add another section which contains styles of each component. 
+The styles that exists are : "flex","background","box-shadow","margin" and "padding".
+
+"flex" can take 3 values namely: "none", "grow", "shrink".
+"background" can take any color code, if the user doesnt give us a code but mentions a color, feel free to get its closest color code.
+"shadow" can take 5 values: "sm", "md", "lg", "xl", "xxl" which correspond to small, medium, large, extra large and extra extra large respectively.  
+"margin" and "padding" take 8 values : "xxs", "xs", "sm", "md", "lg", "xl", "xxl", "3xl".
+Command: "a web page with a button in a container and the container flex is grow, margin is medium, ppadding is medium, background having colour code 2626AC and box shadow as large."
+ANSWER:
+[
+{
+    "container_1":["button_1"],
+    "button_1":[]
+},
+{
+    "container_1":{"type":"section","direction":"row"},
+    "button_1":{"size":"sm", "disabled",false,"variant":"secondary","label":"click"}
+},
+{
+    "container_1":{"flex":"grow","margin":"md","padding":"md","background":"#2626AC","box-shadow":"lg"},
+    "button_1":{}
+}
+]
+
+Note that all the components have been mentioned in all the sections, and button was an empty dictionary in the third section as no information was given on the button's style.
+
+If left for you use the mentioned styles and components and various combinations of those.
+Expand the content for the features mentioned by the user in their individual containers. Use nested containers to keep related things together, and maybe flex-direction to row, so that it feels they are actually related.
+Use your creativity at your fullest. Use styles like padding, margins, font sizes, font-family etc to make it look good. 
+Set the sizes like width and height of containers appropriately so the components don't stretch out to the corners of the page.
+Use the available components when there is a suitable component. use rich text to create any custom component that you want to create. Use <div>s extensively so that you can add styles for everything in detail. Dont forget to add styles in rich texts. try to use gray scaled colors.
+
+If we ask for web page for a "project dashboard". use this as starting point and build up on it. 
+[{
+"container_1": ["heading_1", "container_2"],
+"container_2": ["container_3", "container_4"],
+"container_3": ["heading_2", "container_5", "container_6", "container_7"],
+"container_4": ["heading_3", "container_8", "container_9", "container_10"],
+"container_5": ["heading_4", "rich_text_1"],
+"container_6": ["heading_5", "rich_text_2"],
+"container_7": ["heading_6", "rich_text_3"],
+"container_8": ["heading_7", "rich_text_4"],
+"container_9": ["heading_8", "rich_text_5"],
+"container_10": ["heading_9", "rich_text_6"],
+"heading_1": [],
+"heading_2": [],
+"heading_3": [],
+"heading_4": [],
+"heading_5": [],
+"heading_6": [],
+"heading_7": [],
+"heading_8": [],
+"heading_9": [],
+"rich_text_1": [],
+"rich_text_2": [],
+"rich_text_3": [],
+"rich_text_4": [],
+"rich_text_5": [],
+"rich_text_6": []
+}, {
+"container_1": {"type": "section", "direction": "column"},
+"container_2": {"type": "section", "direction": "column"},
+"container_3": {"type": "section", "direction": "column"},
+"container_4": {"type": "section", "direction": "column"},
+"container_5": {"type": "section", "direction": "column"},
+"container_6": {"type": "section", "direction": "column"},
+"container_7": {"type": "section", "direction": "column"},
+"container_8": {"type": "section", "direction": "column"},
+"container_9": {"type": "section", "direction": "column"},
+"container_10": {"type": "section", "direction": "column"},
+"heading_1": {"variant": "header-primary", "label": "Project Dashboard Management"},
+"heading_2": {"variant": "title-primary", "label": "Activity Tracking Dashboard"},
+"heading_3": {"variant": "title-primary", "label": "Financials"},
+"heading_4": {"variant": "title-secondary", "label": "Deadlines"},
+"heading_5": {"variant": "title-secondary", "label": "Upcoming Events"},
+"heading_6": {"variant": "title-secondary", "label": "Resource Availability"},
+"heading_7": {"variant": "title-secondary", "label": "Net Present Value"},
+"heading_8": {"variant": "title-secondary", "label": "Internal Rate of Return"},
+"heading_9": {"variant": "title-secondary", "label": "Expected Sales"},
+"rich_text_1": {"value": "<div><p style='color:#333;'><b>Deadlines:</b> Keep track of all project deadlines and prioritize tasks based on their due dates. This helps in ensuring that all milestones are met on time.</p><ul style='padding-left:20px;'><li style='margin-bottom:5px;'>Task 1: Deadline on 1st June</li><li>Task 2: Deadline on 15th June</li></ul></div>"},
+"rich_text_2": {"value": "<div><p style='color:#333;'><b>Upcoming Events:</b> Stay updated with all the project-related events such as meetings, workshops, and conferences. This helps in better planning and coordination among team members.</p><ul style='padding-left:20px;'><li style='margin-bottom:5px;'>Weekly Meeting: Every Monday at 10 AM</li><li>Workshop: 5th June</li></ul></div>"},
+"rich_text_3": {"value": "<div><p style='color:#333;'><b>Resource Availability:</b> Manage and allocate resources efficiently to ensure smooth project execution. Keep track of available resources and their utilization.</p><table style='width:100%;'><tr style='background-color:#F0F0F0;'><th style='padding:5px;'>Resource</th><th style='padding:5px;'>Availability</th></tr><tr><td style='padding:5px;'>Team Member A</td><td style='padding:5px;'>80%</td></tr><tr style='background-color:#F0F0F0;'><td style='padding:5px;'>Team Member B</td><td style='padding:5px;'>60%</td></tr></table></div>"},
+"rich_text_4": {"value": "<div><p style='color:#333;'><b>Net Present Value (NPV):</b> Calculate the net present value of the project to determine its profitability. NPV helps in making informed investment decisions.</p><p style='margin-bottom:5px;'>Current NPV: $12,345</p></div>"},
+"rich_text_5": {"value": "<div><p style='color:#333;'><b>Internal Rate of Return (IRR):</b> Estimate the project's internal rate of return to measure its efficiency and potential growth. IRR helps in comparing different investment opportunities.</p><p style='margin-bottom:5px;'>Current IRR: 15%</p></div>"},
+"rich_text_6": {"value": "<div><p style='color:#333;'><b>Expected Sales:</b> Forecast the expected sales from the project to evaluate its revenue generation potential. This helps in identifying the most profitable projects.</p><p style='margin-bottom:5px;'>Expected Sales: $50,000</p></div>"}
+}, {
+"container_1": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+"container_2": {"flex": "grow", "padding": "md", "margin": "md"},
+"container_3": {"flex": "grow", "padding": "md", "margin": "md"},
+"container_4": {"flex": "grow", "padding": "md", "margin": "md"},
+"container_5": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"container_6": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"container_7": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"container_8": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"container_9": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"container_10": {"background": "#E0E0E0", "padding": "sm", "margin": "sm"},
+"heading_1": {"padding": "md", "margin": "md"},
+"heading_2": {"padding": "sm", "margin": "sm"},
+"heading_3": {"padding": "sm", "margin": "sm"},
+"heading_4": {"padding": "xs", "margin": "xs"},
+"heading_5": {"padding": "xs", "margin": "xs"},
+"heading_6": {"padding": "xs", "margin": "xs"},
+"heading_7": {"padding": "xs", "margin": "xs"},
+"heading_8": {"padding": "xs", "margin": "xs"},
+"heading_9": {"padding": "xs", "margin": "xs"},
+"rich_text_1": {"padding": "xs", "margin": "xs"},
+"rich_text_2": {"padding": "xs", "margin": "xs"},
+"rich_text_3": {"padding": "xs", "margin": "xs"},
+"rich_text_4": {"padding": "xs", "margin": "xs"},
+"rich_text_5": {"padding": "xs", "margin": "xs"},
+"rich_text_6": {"padding": "xs", "margin": "xs"}
+}]
+
+If we ask a web page for train ticketing. Use can use the template below and build on it. 
+[{
+    "container_1": ["heading_1"],
+    "container_2": ["heading_2"],
+    "container_3": ["rich_text_1"],
+    "container_4": ["heading_3"],
+    "container_5": ["input_1", "input_2", "input_3", "input_4", "input_5", "button_1"],
+    "container_6": ["heading_4"],
+    "container_7": ["rich_text_2"],
+    "container_8": ["heading_5"],
+    "container_9": ["rich_text_3"],
+    "container_10": ["input_6", "input_7", "button_2", "button_3", "button_4"]
+    },
+    {
+    "container_1": {"type": "section", "direction": "column"},
+    "container_2": {"type": "section", "direction": "column"},
+    "container_3": {"type": "section", "direction": "column"},
+    "container_4": {"type": "section", "direction": "column"},
+    "container_5": {"type": "section", "direction": "column"},
+    "container_6": {"type": "section", "direction": "column"},
+    "container_7": {"type": "section", "direction": "column"},
+    "container_8": {"type": "section", "direction": "column"},
+    "container_9": {"type": "section", "direction": "column"},
+    "container_10": {"type": "section", "direction": "row"},
+    "heading_1": {"variant": "header-primary", "label": "Train Ticket Booking Portal"},
+    "heading_2": {"variant": "title-primary", "label": "Your one-stop destination for seamless train ticket bookings!"},
+    "rich_text_1": {"value": "<p>Welcome to our Train Ticket Booking Portal! Enjoy a hassle-free experience of booking train tickets for your upcoming journeys. Our user-friendly platform offers you an extensive range of trains running across the country, giving you the flexibility to choose the best-suited train, class, and timings for your travel plans. Book with us and embark on a comfortable and enjoyable train journey.</p>"},
+    "heading_3": {"variant": "title-primary", "label": "Book Your Train Tickets Now"},
+    "input_1": {"size": "sm", "type": "text", "label": "Enter your departure city:"},
+    "input_2": {"size": "sm", "type": "text", "label": "Enter your destination city:"},
+    "input_3": {"size": "sm", "type": "date", "label": "Select the date of travel:"},
+    "input_4": {"size": "sm", "type": "dropdown", "label": "Number of passengers:"},
+    "input_5": {"size": "sm", "type": "dropdown", "label": "Select your preferred class:"},
+    "button_1": {"size": "md", "disabled": false, "variant": "secondary", "label": "Search Trains"},
+    "heading_4": {"variant": "title-primary", "label": "Why Choose Our Train Ticket Booking Portal?"},
+    "rich_text_2": {"value": "<ul><li>Comprehensive database of trains: Access the schedule, routes, and seat availability of thousands of trains across the country.</li><li>Secure and easy payment options: We offer a variety of secure payment methods, including credit/debit cards, net banking, and popular mobile wallets.</li><li>Instant ticket confirmation: Receive your train ticket confirmation and PNR number instantly via email and SMS.</li><li>24/7 customer support: Our dedicated customer support team is available round the clock to assist you with any queries or issues related to your train ticket bookings.</li><li>Special discounts and offers: Avail exclusive offers and discounts on train tickets, especially for senior citizens, students, and frequent travelers.</li></ul>"},
+    "heading_5": {"variant": "title-primary", "label": "FAQs"},
+    "rich_text_3": {"value": "<p><b>How can I check the train schedule and seat availability?</b><br>Enter your departure city, destination city, date of travel, and the number of passengers in the required fields, and click on the \"Search Trains\" button. The list of available trains, along with their schedule and seat availability, will be displayed on the screen.</p><p><b>Can I book tickets for a round trip?</b><br>Yes, you can book tickets for a round trip. After selecting the train for your onward journey, you can choose the return train from the list of available options.</p><p><b>How do I cancel my train ticket?</b><br>To cancel your train ticket, log in to your account, go to the \"My Bookings\" section, select the ticket you want to cancel, and click on the \"Cancel Ticket\" button. The refund, if applicable, will be processed as per the cancellation policy.</p><p><b>Can I change my travel date or passenger details after booking the ticket?</b><br>Yes, you can change the travel date or passenger details by canceling the existing ticket and booking a new one with the updated information.</p><p><b>How can I avail discounts on train tickets?</b><br>To avail discounts on train tickets, enter the relevant coupon code or select the applicable concession category while booking the ticket.</p>"},
+    "input_6": {"size": "sm", "type": "phone", "label": "Phone Number"},
+    "input_7": {"size": "sm", "type": "email", "label": "Email Address"},
+    "button_2": {"size": "md", "disabled": false, "variant": "secondary", "label": "Login/Register"},
+    "button_3": {"size": "md", "disabled": false, "variant": "secondary", "label": "My Bookings"},
+    "button_4": {"size": "md", "disabled": false, "variant": "secondary", "label": "Help Center"},
+    "button_5": {"size": "md", "disabled": false, "variant": "secondary", "label": "About Us"}
+    },
+    {
+    "container_1": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_2": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_3": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_4": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_5": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_6": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_7": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_8": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_9": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "container_10": {"background": "#F5F5F5", "padding": "md", "margin": "md"},
+    "heading_1": {"padding": "md", "margin": "md"},
+    "heading_2": {"padding": "sm", "margin": "sm"},
+    "rich_text_1": {"padding": "md", "margin": "md"},
+    "heading_3": {"padding": "md", "margin": "md"},
+    "input_1": {"padding": "sm", "margin": "sm"},
+    "input_2": {"padding": "sm", "margin": "sm"},
+    "input_3": {"padding": "sm", "margin": "sm"},
+    "input_4": {"padding": "sm", "margin": "sm"},
+    "input_5": {"padding": "sm", "margin": "sm"},
+    "button_1": {"padding": "md", "margin": "md"},
+    "heading_4": {"padding": "md", "margin": "md"},
+    "rich_text_2": {"padding": "md", "margin": "md"},
+    "heading_5": {"padding": "md", "margin": "md"},
+    "rich_text_3": {"padding": "md", "margin": "md"},
+    "input_6": {"padding": "sm", "margin": "sm"},
+    "input_7": {"padding": "sm", "margin": "sm"},
+    "button_2": {"padding": "md", "margin": "md"},
+    "button_3": {"padding": "md", "margin": "md"},
+    "button_4": {"padding": "md", "margin": "md"},
+    "button_5": {"padding": "md", "margin": "md"}
+    }]
+
+For rich-text, use the html tags like : div, a, abbr, acronym, address, b, bdi, bdo, blockquote, br, cite, code, del, dfn, em, i, ins, kbd, mark, q, s, samp, small, span, strong, sub, sup, time, u, var
+For rich-text, use the css styles like: color, background-color, font-family, font-size, font-weight, text-align, text-decoration, text-transform, white-space, line-height, opacity, text-shadow, letter-spacing, word-spacing, overflow-wrap, word-break, hyphens, vertical-align, direction
+
+Just write the list which has 3 sections.
+First the flow and second the features of each element and 3rd the having styles of components if mentioned. Just write the list which has 3 sections nothing more.
+Give the output in the format only. No extra text needed:
+[{}, {}, {}]
+
+Just print the answer with list of 3 sections nothing more.

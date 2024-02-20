@@ -1,0 +1,571 @@
+var userprompt = "Create 1 button in a container.";
+
+
+var system_message = 'you are a professional engineer who gives prompts in specific format for a given Input as following.             \nCommand: "A web page with a heading a rich text and 2 Buttons in a container."           \nAnswer:             \n[{\n"heading_1";[],  \n"rich_text_1":[],  \n"container_1":["button_1","button_2"],          \n"button_1":[],\n"button_2":[]       \n}]         \n to give you context on what is happening, since container contains button that means button is containers child and button has no children so it is empty.  Name of every component should be unique and do not make your sub categories. Print the children immediately after the parent and then to next parent.Naming format must be followed. Like containers should be named as "container_{number}" example "container_1" similarly for "buttons","rich text" and "heading".Now this container has 2 features namely "type" and "direction"."type" can take 5 values "Section","Article","Header","Footer","Aside","Address","Main" default value is "Section"."direction" can take 2 value "row" and "column" default value is "row".Now this button has 4 features namely "size","disabled","variant" and "label". "size" can take 3 values small,medium and large used as  "sm","md" and "lr" and the default value is "md"."disabled" can take 2 value namely "True" and "False" and the default value is "False"."variant" can take 7 values "primary", "secondary", "tertiary", "positive primary", "positive secondary" , "negative primary" and "negative secondary" and the default value is "secondary"."label" takes a string as value the default one is "click". Now this "heading" has 2 features namely "variant" and "label". "variant" can take 6 values "header-primary","header-secondary","header-tertiary","title-primary","title-secondary","title-tertiary", the default value is "header-primary".If the user ask for you to explain some subtopicsthen make another header component but its default value will be "title-primary".If the sub topics has sub topics then make the header for those topics take the value "title-secondary" and so on."label" can take any string and the default value is "We make work, work better for people with modern digital workflows".Now this "rich text" has 1 feature "value"."value" can take any string and the default value is "<p>The world works with ServiceNow</p>".If the input instructs you to write up about any topic then make a short summary as the value for the rich text feature, and in such a case make a short heading to descibe our summary as thedefault value for the label feature in header.These features can be altered and you should write them aswell. For example;\nCommand: "A webpage with a heading a rich text and 2 buttons in a container one is small and another large"\nAnswer: \n[{         \n"heading_1":[],\n"rich_text_1":[],\n"container_1":["button_1","button_2"],          \n"button_1":[],\n"button_2":[]          \n} ,         \n{\n"heading_1":{"variant":"header-primary","label":"We make work, work better for people with modern digital workflows"}\n"rich_text_1":{"value":"<p>The world works with ServiceNow</p>"}\n"container_1":{"type":"Section","direction":"row"}\n"button_1":{"size":"sm", "disabled","False","variant":"secondary","label":"click"},\n"button_2":{"size":"lr","disabled":"False" ,"variant":"secondary","label":"-"},\n}]\nJust write the answer which has 2 section. First the flow and second the features of each element. Also note that there are only these 4 components and would like you use the component names while naming them.After reading the input, id you are asked to generate texts then i would like you to divide them into proper topics and subtopics andstructure it with header component.';
+
+// var system_message = 'hello world'
+
+var inputs = {};
+inputs['deployment_id'] = 'gpt-4-32k'; // String 
+inputs['messages'] = [{ 'role': 'system', 'content': system_message }, { 'role': 'user', 'content': userprompt }];
+inputs['temperature'] = 0.7;
+inputs['max_tokens'] = 800 ; // Integer 
+inputs['presence_penalty'] = 0; // Floating Point Number 
+inputs['frequency_penalty'] = 0; // Floating Point Number 
+inputs['top_p'] = 0.95 ; // Floating Point Number 
+
+// Start Asynchronously: Uncomment to run in background. Code snippet will not have access to outputs.
+// sn_fd.FlowAPI.getRunner().action('sn_azure_openai.chat_completions').inBackground().withInputs(inputs).run();
+
+// Execute Synchronously: Run in foreground. Code snippet has access to outputs.
+var result = sn_fd.FlowAPI.getRunner().action('sn_azure_openai.chat_completions').inForeground().withInputs(inputs).run();
+var outputs = result.getOutputs();
+
+// Get Outputs:
+// Note: outputs can only be retrieved when executing synchronously.
+var id = outputs['id']; // String
+var object = outputs['object']; // String
+var created = outputs['created']; // Integer
+var model = outputs['model']; // String
+var usage = outputs['usage']; // Object
+var choices = outputs['choices']; // Array.Object
+var ans = choices[0]['message']['content'];
+gs.info(ans);
+var container_template = {
+        "elementId": "container_1",
+        "elementLabel": "Container 1",
+        "propertyValues": {
+            "ariaRegionHeadingLevel": {
+                "type": "JSON_LITERAL",
+                "value": "1"
+            },
+            "hideEmptyStateUi": {
+                "type": "JSON_LITERAL",
+                "value": true
+            },
+            "ariaRegionName": {
+                "type": "TRANSLATION_LITERAL",
+                "value": {
+                    "code": null,
+                    "message": "",
+                    "comment": ""
+                }
+            },
+            "includeAriaHeading": {
+                "type": "JSON_LITERAL",
+                "value": false
+            },
+            "type": {
+                "type": "JSON_LITERAL",
+                "value": "section"
+            },
+            "ariaRole": {
+                "type": "JSON_LITERAL",
+                "value": ""
+            }
+        },
+        "eventMappings": [],
+        "slot": null,
+        "definition": {
+            "id": "d356d14b6e293a3020a244b63d278d8f",
+            "type": "MACROPONENT"
+        },
+        "overrides": {
+            "composition": [],
+            "layout": {
+                "default": {
+                    "children": null,
+                    "isInline": null,
+                    "items": [],
+                    "root": null,
+                    "rules": null,
+                    "styles": { "flex-direction": "column" },
+                    "templateId": "5832fd4d53c31010e6bcddeeff7b12db",
+                    "type": "flex"
+                },
+                "version": "3.0.0"
+            }
+        },
+        "isHidden": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "isHero": false,
+        "extensionPoints": [],
+        "isNonDestructive": false,
+        "items": [],
+        "styles": { "width": "100%" }
+    };
+    
+    var button_template = {
+        "elementId": "button_1",
+        "elementLabel": "Button 1",
+        "propertyValues": {
+            "size": {
+                "type": "JSON_LITERAL",
+                "value": "md"
+            },
+            "variant": {
+                "type": "JSON_LITERAL",
+                "value": "secondary"
+            },
+            "icon": {
+                "type": "JSON_LITERAL",
+                "value": null
+            },
+            "disabled": {
+                "type": "JSON_LITERAL",
+                "value": false
+            },
+            "label": {
+                "type": "TRANSLATION_LITERAL",
+                "value": {
+                    "code": null,
+                    "message": "Button",
+                    "comment": ""
+                }
+            },
+            "tooltipContent": {
+                "type": "TRANSLATION_LITERAL",
+                "value": {
+                    "code": null,
+                    "message": "Enter a label",
+                    "comment": ""
+                }
+            },
+            "configAria": {
+                "type": "MAP_CONTAINER",
+                "container": {}
+            }
+        },
+        "eventMappings": [],
+        "slot": null,
+        "definition": {
+            "id": "d37ce8abca89d02905fed903c8e34d8e",
+            "type": "MACROPONENT"
+        },
+        "overrides": null,
+        "isHidden": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "isHero": false,
+        "extensionPoints": [],
+        "isNonDestructive": false,
+        "items": [],
+        "styles": {}
+    };
+    
+    var starter_template = {
+        "elementId": "modalContainerViewport",
+        "elementLabel": "Modal Container (Viewport)",
+        "propertyValues": {
+            "labelledby": {
+                "type": "JSON_LITERAL",
+                "value": ""
+            },
+            "size": {
+                "type": "JSON_LITERAL",
+                "value": "md"
+            },
+            "contents": {
+                "type": "DATA_OUTPUT_BINDING",
+                "binding": {
+                    "address": ["record", "contents"]
+                }
+            },
+            "disableDismiss": {
+                "type": "JSON_LITERAL",
+                "value": false
+            },
+            "bare": {
+                "type": "DATA_OUTPUT_BINDING",
+                "binding": {
+                    "address": ["record", "bare"]
+                }
+            },
+            "displayOptions": {
+                "type": "DATA_OUTPUT_BINDING",
+                "binding": {
+                    "address": ["record", "displayOptions"]
+                }
+            }
+        },
+        "eventMappings": [{
+            "eventMappingId": "clcchhgjhhnzaabbccqddghhgjhuuaabbcii",
+            "isConfiguration": false,
+            "offRowStorageId": null,
+            "sourceEventApiName": "sn_uxf_page.CANVAS_MODAL#CLOSED",
+            "sourceEventCorrelationId": null,
+            "sourceEventDefinition": {
+                "apiName": "sn_uxf_page.CANVAS_MODAL#CLOSED",
+                "id": null,
+                "type": "UXEVENT"
+            },
+            "sourceEventSysId": null,
+            "targets": [{
+                "broker": null,
+                "clientScript": null,
+                "conditional": null,
+                "declarativeAction": null,
+                "event": null,
+                "operation": {
+                    "dataBrokerId": "029f04e053610110ac9bddeeff7b1294",
+                    "operationName": "RECORD#CLOSE_MODAL",
+                    "parentResourceId": "record",
+                    "payload": {
+                        "type": "JSON_LITERAL",
+                        "value": {}
+                    }
+                },
+                "targetId": "clcchhgjhhnzaabbccrddghhgvlraaggojjhh",
+                "type": "DATABROKER_OP"
+            }]
+        }],
+        "slot": null,
+        "definition": {
+            "id": "61c315e9ccb8970546c30f3e2da41a32",
+            "type": "MACROPONENT_VIEWPORT"
+        },
+        "overrides": null,
+        "isHidden": {
+            "type": "JSON_LITERAL",
+            "value": ""
+        },
+        "isHero": false,
+        "extensionPoints": [{
+            "controllerDependencyMap": {},
+            "controllerElementId": "",
+            "name": "Record page modals",
+            "sysId": "e38960c1c30301103581a5a1d840dd45"
+        }],
+        "isNonDestructive": false,
+        "items": [],
+        "styles": null
+    };
+    
+    var starter_layout = {
+        "default": {
+            "children": null,
+            "isInline": null,
+            "items": [],
+            "root": null,
+            "rules": null,
+            "styles": { "flex-direction": "column" },
+            "templateId": "5832fd4d53c31010e6bcddeeff7b12db",
+            "type": "flex"
+        },
+        "version": "3.0.0"
+    };
+    
+    var heading_template = {
+        "elementId": "heading_1",
+        "elementLabel": "Heading 1",
+        "propertyValues": {
+            "hasNoMargin": {
+                "type": "JSON_LITERAL",
+                "value": false
+            },
+            "level": {
+                "type": "JSON_LITERAL",
+                "value": "1"
+            },
+            "variant": {
+                "type": "JSON_LITERAL",
+                "value": "header-primary"
+            },
+            "wontWrap": {
+                "type": "JSON_LITERAL",
+                "value": false
+            },
+            "label": {
+                "type": "TRANSLATION_LITERAL",
+                "value": {
+                    "code": null,
+                    "message": "We make work, work better for people with modern digital workflows",
+                    "comment": ""
+                }
+            }
+        },
+        "eventMappings": [],
+        "slot": null,
+        "definition": {
+            "id": "1f6e0643eca7a637e36bd7833549ec9e",
+            "type": "MACROPONENT"
+        },
+        "overrides": null,
+        "isHidden": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "isHero": false,
+        "extensionPoints": [],
+        "isNonDestructive": false,
+        "items": [],
+        "styles": {}
+    };
+    
+    var rich_text_template = {
+        "elementId": "rich_text_1",
+        "elementLabel": "Rich text 1",
+        "propertyValues": {
+            "html": {
+                "type": "TRANSLATION_LITERAL",
+                "value": {
+                    "code": null,
+                    "message": "<p>The world works with ServiceNow</p>",
+                    "comment": ""
+                }
+            }
+        },
+        "eventMappings": [],
+        "slot": null,
+        "definition": {
+            "id": "2d56f06d55f46bbd4e79b5e624beb940",
+            "type": "MACROPONENT"
+        },
+        "overrides": null,
+        "isHidden": {
+            "type": "JSON_LITERAL",
+            "value": null
+        },
+        "isHero": false,
+        "extensionPoints": [],
+        "isNonDestructive": false,
+        "items": [],
+        "styles": {}
+    };
+    
+    function mergeObjects() {
+        var resObj = {};
+        for(var i=0; i < arguments.length; i += 1) {
+             var obj = arguments[i],
+                 keys = Object.keys(obj);
+             for(var j=0; j < keys.length; j += 1) {
+                 resObj[keys[j]] = obj[keys[j]];
+             }
+        }
+        return resObj;
+    }
+
+    function Decoder(ans_) {
+        this.visited = {};
+        this.parsed_temp = null;
+        this.ans1 = ans_;
+        this.temp = JSON.parse(this.ans1);
+        this.ans = this.temp[0];
+        this.style = this.temp[1];
+        this.container_template = container_template;
+        this.button_template = button_template;
+        this.starter_template = starter_template;
+        this.starter_layout = starter_layout;
+        this.heading_template = heading_template;
+        this.rich_text_template = rich_text_template;
+    
+        for (var a in this.ans) {
+            if (this.ans.hasOwnProperty(a)) {
+                this.visited[a] = false;
+            }
+        }
+    
+        this.starter_helper = function () {
+            var count_dict = {};
+            var layout = JSON.parse(JSON.stringify(this.starter_layout));
+            for (var k in this.ans) {
+                if (this.ans.hasOwnProperty(k)) {
+                    count_dict[k] = 0;
+                    var children = this.ans[k];
+                    for (var i = 0; i < children.length; i++) {
+                        var e = children[i];
+                        count_dict[e] = 0;
+                    }
+                }
+            }
+    
+            for (var k in this.ans) {
+                if (this.ans.hasOwnProperty(k)) {
+                    count_dict[k]++;
+                    var children = this.ans[k];
+                    for (var i = 0; i < children.length; i++) {
+                        var e = children[i];
+                        count_dict[e]++;
+                    }
+                }
+            }
+    
+            for (var k in count_dict) {
+                if (count_dict.hasOwnProperty(k)) {
+                    if (count_dict[k] === 1) {
+                        var temp_json = {
+                            element_id: k,
+                            styles: {},
+                        };
+                        layout['default']['items'].push(temp_json);
+                    }
+                }
+            }
+            return layout;
+        };
+    
+        this.layout_helper = function (nam) {
+            var layout = JSON.parse(JSON.stringify(starter_layout));
+            // gs.info(JSON.stringify(layout));
+            var children = this.ans[nam];
+    
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                var temp_json = {
+                    element_id: child,
+                    styles: {},
+                };
+                layout['default']['items'].push(temp_json);
+            }
+    
+            return layout;
+        };
+    
+        this.composition_helper = function (nam, children) {
+            var parsed_temp = {};
+    
+            if (nam.startsWith('container_')) {
+                parsed_temp = JSON.parse(JSON.stringify(this.container_template));
+            } else if (nam.startsWith('button_')) {
+                parsed_temp = JSON.parse(JSON.stringify(this.button_template));
+            } else if (nam.startsWith('heading_')) {
+                parsed_temp = JSON.parse(JSON.stringify(this.heading_template));
+            } else if (nam.startsWith('rich_text_')) {
+                parsed_temp = JSON.parse(JSON.stringify(this.rich_text_template));
+            }
+    
+            if (nam.length !== 0) {
+                parsed_temp.elementId = nam;
+                parsed_temp.elementLabel = nam;
+                parsed_temp.eventMappings = [];
+                parsed_temp.overrides = null;
+                parsed_temp.definition.type = 'MACROPONENT';
+                this.visited[nam] = true;
+            }
+    
+            if (children.length !== 0) {
+                parsed_temp.overrides = {};
+                parsed_temp.overrides.layout = this.layout_helper(nam);
+                parsed_temp.overrides.composition = [];
+    
+                for (var i = 0; i < children.length; i++) {
+                    var child = children[i];
+                    if (!this.visited[child]) {
+                        var a = this.composition_helper(child, this.ans[child]);
+                        parsed_temp.overrides.composition.push(a);
+                    }
+                }
+            }
+    
+            if (nam.startsWith('container_')) {
+                var parsed_style = mergeObjects( this.style[nam]);
+    
+                for (var style in parsed_style) {
+                    if (style === 'type') {
+                        parsed_temp['propertyValues']['type']['value'] = parsed_style[style];
+                    } else if (style === 'direction') {
+                        parsed_temp['overrides']['layout']['default']['styles']['flex-direction'] = parsed_style[style];
+                    }
+                }
+            }
+    
+            if (nam.startsWith('button_')) {
+                var parsed_style = mergeObjects( this.style[nam]);
+    
+                for (var style in parsed_style) {
+                    if (['size', 'disabled', 'variant'].indexOf(style)!==-1) {
+                        parsed_temp['propertyValues'][style]['value'] = parsed_style[style];
+                    }
+                    if (style === 'label') {
+                        parsed_temp['propertyValues']['label']['value']['message'] = parsed_style[style];
+                    }
+                }
+            }
+    
+            if (nam.startsWith('heading_')) {
+                var parsed_style = mergeObjects(this.style[nam]);
+    
+                for (var style in parsed_style) {
+                    if (['variant'].indexOf(style)!==-1) {
+                        parsed_temp['propertyValues'][style]['value'] = parsed_style[style];
+                    }
+                    if (style === 'label') {
+                        parsed_temp['propertyValues']['label']['value']['message'] = parsed_style[style];
+                    }
+                }
+            }
+    
+            if (nam.startsWith('rich_text_')) {
+                var parsed_style = mergeObjects(this.style[nam]);
+    
+                for (var style in parsed_style) {
+                    if (style === 'value') {
+                        parsed_temp['propertyValues']['html']['value']['message'] = parsed_style[style];
+                    }
+                }
+            }
+    
+            return parsed_temp;
+        };
+    
+        this.test_func = function () {
+            var op = [];
+            op.push(this.starter_template);
+    
+            for (var a in this.ans) {
+                if (this.ans.hasOwnProperty(a)) {
+                    if (!this.visited[a]) {
+                        op.push(this.composition_helper(a, this.ans[a]));
+                    }
+                }
+            }
+    
+            return op;
+        };
+    }
+    
+    
+    
+    var decoder = new Decoder(ans);
+    var layout = decoder.starter_helper()
+    var composition = decoder.test_func()
+    
+    gs.info("Ans1: "+JSON.stringify(layout));
+    gs.info("Ans2: "+JSON.stringify(composition));
+    
+    
+    var table_record = new GlideRecord('sys_ux_macroponent');
+    table_record.addQuery('sys_id', '8928ff584777e1101f3c149c346d4321');
+    table_record.query();
+    
+    if (table_record.next()) {
+        table_record.setValue('layout', JSON.stringify(layout));
+        table_record.setValue('composition', JSON.stringify(composition));
+        table_record.update();
+    }
+    
+    
+    
+    // const ans1Json = JSON.stringify(layout);
+    // const ans2Json = JSON.stringify(composition);
+    
+    // // Write ans1 to a JSON file
+    // fs.writeFile('ans1.json', ans1Json, 'utf8', (err) => {
+    //   if (err) {
+    //     console.error('Error writing ans1 to file:', err);
+    //   } else {
+    //     console.log('ans1 has been written to ans1.json');
+    //   }
+    // });
+    
+    // // Write ans2 to a JSON file
+    // fs.writeFile('ans2.json', ans2Json, 'utf8', (err) => {
+    //   if (err) {
+    //     console.error('Error writing ans2 to file:', err);
+    //   } else {
+    //     console.log('ans2 has been written to ans2.json');
+    //   }
+    // });
