@@ -1,0 +1,9 @@
+Requirement doc
+
+1. Batch Tweets to insights json
+
+2. Tweets Tagging
+
+To do 
+
+

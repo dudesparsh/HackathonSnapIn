@@ -1,0 +1,64 @@
+{
+  "tweets": [
+    {
+      "id": 1,
+      "text": "I can't believe what Trump just said in his latest press conference.",
+      "user": "username_1",
+      "timestamp": "2023-12-17T08:30:00Z"
+    },
+    {
+      "id": 2,
+      "text": "Trump's policies are causing a lot of controversy among Americans.",
+      "user": "username_2",
+      "timestamp": "2023-12-17T09:15:00Z"
+    },
+    {
+      "id": 3,
+      "text": "Trump's approval ratings are at an all-time low.",
+      "user": "username_3",
+      "timestamp": "2023-12-17T10:00:00Z"
+    },
+    {
+      "id": 4,
+      "text": "I support Trump's decision to withdraw from the Paris Agreement.",
+      "user": "username_4",
+      "timestamp": "2023-12-17T10:45:00Z"
+    },
+    {
+      "id": 5,
+      "text": "Trump's latest tweet has sparked outrage on social media.",
+      "user": "username_5",
+      "timestamp": "2023-12-17T11:30:00Z"
+    },
+    {
+      "id": 6,
+      "text": "I disagree with Trump's stance on immigration.",
+      "user": "username_6",
+      "timestamp": "2023-12-17T12:15:00Z"
+    },
+    {
+      "id": 7,
+      "text": "Trump's supporters are rallying behind him despite the criticism.",
+      "user": "username_7",
+      "timestamp": "2023-12-17T13:00:00Z"
+    },
+    {
+      "id": 8,
+      "text": "Trump's latest executive order has divided the nation.",
+      "user": "username_8",
+      "timestamp": "2023-12-17T13:45:00Z"
+    },
+    {
+      "id": 9,
+      "text": "Trump's speech at the rally was met with mixed reactions.",
+      "user": "username_9",
+      "timestamp": "2023-12-17T14:30:00Z"
+    },
+    {
+      "id": 10,
+      "text": "I can't wait to see what Trump does next.",
+      "user": "username_10",
+      "timestamp": "2023-12-17T15:15:00Z"
+    }
+  ]
+}

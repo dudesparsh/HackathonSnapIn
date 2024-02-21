@@ -1,0 +1,44 @@
+[
+    {
+        "tag1": "feature request/bug/question",
+        "no_of_tweets": "",
+        "summary": "",
+        "snap_in_name": "",
+        "reviews": {
+            "twitter": {
+                "tweet1": ["tagvalue eg sentiments", "geographical"],
+                "tweet2": ["tagvalue"]
+            },
+            "google_store": {
+                "store1": ["tagvalue eg sentiments", "geographical"],
+                "store2": ["tagvalue"]
+            },
+            "app_store": {
+                "appstore1": ["tagvalue eg sentiments", "geographical"],
+                "appstore2": ["tagvalue"]
+            }
+        },
+        "last_time_frame": ""
+    },
+    {
+        "tag2": "feature request/bug/question",
+        "no_of_tweets": "",
+        "summary": "",
+        "snap_in_name": "",
+        "reviews": {
+            "twitter": {
+                "tweet1": ["tagvalue eg sentiments", "geographical"],
+                "tweet2": ["tagvalue"]
+            },
+            "google_store": {
+                "store1": ["tagvalue eg sentiments", "geographical"],
+                "store2": ["tagvalue"]
+            },
+            "app_store": {
+                "appstore1": ["tagvalue eg sentiments", "geographical"],
+                "appstore2": ["tagvalue"]
+            }
+        },
+        "last_time_frame": ""
+    }
+]
